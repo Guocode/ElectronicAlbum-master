@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" 
+	"http://struts.apache.org/dtds/struts-2.3.dtd" >
+	
+<struts>
+    <!-- 配置为开发模式 -->
+    <constant name="strusts.devMode" value="true"/>
+    <!-- 把扩展名配置为action -->
+    <constant name="struts.action.extension" value="action"></constant>
+    <!-- 把主题配置为simple -->
+    <constant name="struts.ui.theme" value="simple"></constant>
+    <!-- 上传图片最大为5M -->
+    <constant name="struts.multipart.maxSize" value="5242880"/>
+    
+    <package name="demo1" extends="struts-default,json-default" >
+        <!-- 全局的Result结果配置 -->
+        <global-results>
+            <result name="loginUI">/WEB-INF/jsp/userAction/loginUI.jsp</result>
+            <result name="noPrivilegeError">/noPrivilegeError.jsp</result>
+        </global-results>
+        
+        
+        <!-- class属性里面不写action全路径，因为写了之后action会创建两次 
+        	写spring配置的action的bean的ID值
+        -->
+        <action name="test" class="testAction">
+            <result name="success">/test.jsp</result>
+        </action>
+        
+       
+        
+        <!-- 用户管理 -->
+        <action name="user_*" class="userAction" method="{1}">
+            <result name="list">/WEB-INF/jsp/userAction/list.jsp</result>
+            <result name="add">/WEB-INF/jsp/userAction/addUI.jsp</result>
+            <result name="Aadd">/WEB-INF/jsp/userAction/AaddUI.jsp</result>
+            <result name="Aedit">/WEB-INF/jsp/userAction/AeditUI.jsp</result>
+            <result name="edit">/WEB-INF/jsp/userAction/editUI.jsp</result>
+            <result name="index">/WEB-INF/jsp/userAction/userindex.jsp</result>
+            <result name="personal">/WEB-INF/jsp/userAction/personal.jsp</result>
+            <result name="makeAlbum">/WEB-INF/jsp/userAction/makealb.jsp</result>
+            <result name="toPhotoList">/WEB-INF/jsp/photoAction/list.jsp</result>
+            <result name="toList" type="redirectAction">user_list</result> 
+            <result name="addalbumok">user_list</result>
+            
+            <!-- 登录注销 -->
+            <result name="logout">/WEB-INF/jsp/userAction/logout.jsp</result>
+            <result name="toIndex" type="redirect">/index.jsp</result>
+            <result type="json">  
+                <!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->  
+                <param name="root"></param>  
+            </result> 
+        </action>
+        
+        
+        <!-- 角色管理 -->
+        <action name="role_*" class="roleAction" method="{1}">
+            <result name="list">/WEB-INF/jsp/roleAction/list.jsp</result>
+        	<result name="saveUI">/WEB-INF/jsp/roleAction/saveUI.jsp</result>
+            <result name="setPrivilegeUI">/WEB-INF/jsp/roleAction/setPrivilegeUI.jsp</result>
+        	<result name="toList" type="redirectAction">role_list</result>    
+        </action>
+        
+        
+        
+        <!-- 首页 -->
+        <action name="home_*" class="homeAction" method="{1}">
+            <result name="{1}">/WEB-INF/jsp/homeAction/{1}.jsp</result>
+        </action>
+        
+		<action name="upload" class="userAction" method="upload" >
+			<result name="success"/>
+		</action>
+
+		<action name="savePath" class="ea.view.action.UpFileAction " method="savePath" >
+			<result name="success"/>
+		</action>
+		
+		<!-- 照片管理 -->
+        <action name="photo_*" class="ea.view.action.PhotoAction" method="{1}">
+            <result name="list" >/WEB-INF/jsp/photoAction/list.jsp</result>
+            <result name="addPhoto" >/WEB-INF/jsp/photoAction/addUI.jsp</result>
+            <result name="toList" type="redirectAction">photo_list</result>
+        	<result type="json">  
+                <!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->  
+                <param name="root">phPath</param>  
+            </result> 
+        </action>
+        
+        
+        
+        <!-- 相册管理 -->
+        <action name="album_*" class="ea.view.action.AlbumAction" method="{1}">
+            <result name="list" >/WEB-INF/jsp/albumAction/list.jsp</result>
+            <result name="add" >/WEB-INF/jsp/albumAction/addUI.jsp</result>
+            <result name="show" >/WEB-INF/jsp/albumAction/show.jsp</result>
+            <result name="edit" >/WEB-INF/jsp/albumAction/editUI.jsp</result>
+            <result name="bgpsshow" >/WEB-INF/jsp/userAction/editalbum.jsp</result>
+            
+            <result name="make" >/WEB-INF/jsp/albumAction/albummake.jsp</result>
+            <result name="toList" type="redirectAction">album_list</result>
+            <result name="toShow" type="redirectAction">album_show</result>
+        </action>
+    </package>
+</struts>
