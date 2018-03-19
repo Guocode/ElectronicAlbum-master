@@ -32,7 +32,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<%
 						if (session.getAttribute("user") == null) {
 					%>
-					<li><a
+					<li><a class="btn btn-primary" data-toggle="modal" data-target="#myModal"
 						href="${pageContext.request.contextPath}/user_addUI.action"
 						target="_parent">注册</a></li>
 					<li><a
